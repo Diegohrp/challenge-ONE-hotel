@@ -1,0 +1,25 @@
+.container{
+    -fx-background-color: #f7f0e785;
+    -fx-background-radius: 5px;
+    -fx-padding: 20px;
+}
+
+.button{
+    -fx-pref-width: 180px;
+    -fx-pref-height: 50px;
+    -fx-background-color: #f7f0e7;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #373636;
+    -fx-font-size: 14px;
+    -fx-font-family: "Verdana";
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.button:hover{
+    -fx-background-color: #8C6D3C;
+    -fx-text-fill: white;
+}
+
+.icon{
+
+}
