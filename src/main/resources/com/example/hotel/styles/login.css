@@ -8,7 +8,6 @@
     -fx-font-size: 15px;
     -fx-text-fill: #373636;
     -fx-font-weight: bold;
-    -fx-pref-width: 100px;
     -fx-font-family: "Verdana";
 }
 
@@ -16,12 +15,13 @@
     -fx-pref-height: 40px;
     -fx-font-size: 16px;
     -fx-background-radius: 5px;
+    -fx-faint-focus-color: transparent;
 }
 
 .button{
     -fx-pref-width: 180px;
     -fx-pref-height: 40px;
-    -fx-background-color: #8C6D3C;
+    -fx-background-color: #988A7F;
     -fx-background-radius: 20px;
     -fx-text-fill: white;
     -fx-font-size: 14px;
@@ -29,7 +29,19 @@
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
+.button:hover{
+    -fx-background-color: #8C6D3C;
+}
 
 .cancel-button{
-    -fx-background-color: #9b3232
+
+    -fx-background-color: #8d3b3bc0;
+}
+.cancel-button:hover{
+    -fx-background-color: #9b3232;
+}
+
+.errorLabel{
+    -fx-text-fill: #9b3232;
+    -fx-alignment: center;
 }

@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="676.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controllers.LoginController">
    <children>
@@ -32,7 +33,7 @@
             <VBox prefWidth="616.0">
                <children>
                   <Label prefHeight="17.0" prefWidth="69.0" text="Usuario" />
-                  <TextField fx:id="userField" />
+                  <TextField fx:id="userField" promptText="Ingrese su nombre de usuario" />
                </children>
                <padding>
                   <Insets left="30.0" right="30.0" />
@@ -40,8 +41,8 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="84.0" text="Contraseña" />
-                  <PasswordField fx:id="passwordField" />
+                  <Label prefHeight="17.0" prefWidth="573.0" text="Contraseña" />
+                  <PasswordField fx:id="passwordField" promptText="********" />
                </children>
                <padding>
                   <Insets left="30.0" right="30.0" />
@@ -50,9 +51,14 @@
             <HBox alignment="CENTER" prefHeight="108.0" prefWidth="616.0" spacing="20.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#login" text="Login" />
-                  <Button mnemonicParsing="false" styleClass="cancel-button" text="Salir" />
+                  <Button mnemonicParsing="false" onAction="#exit" styleClass="cancel-button" text="Salir" />
                </children>
             </HBox>
+            <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="572.0" styleClass="errorLabel" textFill="#9b3232">
+               <font>
+                  <Font name="Verdana Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
    </children>
