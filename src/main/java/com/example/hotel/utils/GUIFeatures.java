@@ -1,15 +1,17 @@
 package com.example.hotel.utils;
 
 import com.example.hotel.Main;
+import com.example.hotel.enums.PaymentType;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -56,16 +58,52 @@ public class GUIFeatures {
     }
 
     public static void exit(Stage stage){
-        Alert alert = createAlert(
-            "Salir",
+        Alert alert = createAlert("Salir",
             "¿Estás seguro de que deseas salir de la aplicación?",
             "Si sales de la aplicación, perderás todos los cambios no guardados. " +
-                "¿Deseas continuar?",
-            Alert.AlertType.CONFIRMATION
-        );
+                "¿Deseas continuar?", Alert.AlertType.CONFIRMATION);
 
-        if(alert.showAndWait().get() == ButtonType.OK){
+        if (alert.showAndWait().get() == ButtonType.OK) {
             stage.close();
         }
     }
+
+    private static void setComboBoxItem(
+        ListCell<PaymentType> list,
+        PaymentType item,
+        boolean empty){
+
+        if(empty || item == null){
+            list.setGraphic(null);
+        }else{
+            HBox hBox = new HBox(5);
+            Label label = new Label();
+            label.setText(item.getText());
+
+            Image image =
+                new Image(Objects.requireNonNull(
+                    Main.class.getResourceAsStream(
+                        "assets/icons/" + item.getIcon())));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(30);
+            imageView.setFitHeight(30);
+
+            hBox.getChildren().addAll(label,imageView);
+            hBox.setAlignment(Pos.CENTER);
+
+            list.setGraphic(hBox);
+
+
+        }
+    }
+
+    public static ListCell<PaymentType> createListCell(){
+        return new ListCell<>(){
+            @Override protected void updateItem(PaymentType paymentType, boolean empty){
+                super.updateItem(paymentType, empty);
+                GUIFeatures.setComboBoxItem(this,paymentType,empty);
+            }
+        };
+    }
+
 }

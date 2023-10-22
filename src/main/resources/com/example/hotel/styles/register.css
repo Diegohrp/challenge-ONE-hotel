@@ -37,7 +37,7 @@
     -fx-background-color: transparent;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-border-color:#988A7F;
+    -fx-border-color:#807670;
     -fx-border-radius: 5px;
     -fx-border-width: 2px;
 }
@@ -94,14 +94,14 @@
 }
 
 .cancel-button{
-    -fx-background-color: #8d3b3bc0;
+    -fx-background-color: #8d3b3b8b;
 }
 .cancel-button:hover{
     -fx-background-color: #9b3232
 }
 
 .back-button{
-    -fx-background-color: #86491ac3
+    -fx-background-color: #bb6622a1
 }
 .back-button:hover{
     -fx-background-color: #ad6021

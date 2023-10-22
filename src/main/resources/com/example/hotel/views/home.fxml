@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="512.0" fitWidth="759.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-23.0" AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="-80.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../assets/background.jpeg" />
+            <Image url="@../assets/img/background.jpeg" />
          </image>
       </ImageView>
       <VBox layoutX="128.0" layoutY="106.0" prefHeight="380.0" prefWidth="616.0" spacing="15.0" styleClass="container" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0">
@@ -20,7 +20,7 @@
                <children>
                   <ImageView fitHeight="90.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/hotel-icon.png" />
+                        <Image url="@../assets/icons/hotel-icon.png" />
                      </image>
                   </ImageView>
                </children>
@@ -34,7 +34,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/reservation-icon.png" />
+                              <Image url="@../assets/icons/reservation-icon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -53,7 +53,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/search-icon.png" />
+                              <Image url="@../assets/icons/search-icon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -69,7 +69,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/logout-icon.png" />
+                              <Image url="@../assets/icons/logout-icon.png" />
                            </image>
                         </ImageView>
                      </graphic>

@@ -13,9 +13,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader root = new FXMLLoader(
-            Main.class.getResource("views/login.fxml"));
+            Main.class.getResource("views/home.fxml"));
         String css = Main.class
-            .getResource("styles/login.css").toExternalForm();
+            .getResource("styles/home.css").toExternalForm();
 
         Scene scene = new Scene(root.load());
         scene.getStylesheets().add(css);

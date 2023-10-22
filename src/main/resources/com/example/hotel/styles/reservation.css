@@ -63,8 +63,8 @@
     -fx-background-color: #988A7F;
 }
 
-.choice-box{
-    -fx-pref-width: 200px;
+.combo-box{
+    -fx-pref-width: 250px;
     -fx-pref-height: 40px;
     -fx-background-color:transparent;
     -fx-border-color: #988A7F;
@@ -86,4 +86,12 @@
 .next-button:hover{
     -fx-background-color: #8C6D3C;
     -fx-text-fill: white;
+}
+
+.error-label{
+    -fx-text-fill: #9b3232;
+    -fx-font-size: 11px;
+    -fx-padding: 0px;
+    -fx-pref-height: 20px;
+    -fx-alignment: center;
 }
