@@ -15,8 +15,6 @@ import javafx.util.converter.LocalDateStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -53,7 +51,7 @@ public class ReservationController implements Initializable {
         //Stores the reservation in the DB if the data is valid
         //Sets the id from the DB to the static variable ReservationNumber.num
         if(this.isDataValid()){
-            long reservationId = reservationDAO.addReservation(reservation);
+            long reservationId = reservationDAO.add(reservation);
             if(reservationId > 0){
                 ReservationNumber.num = reservationId;
                 successAlert.setContentText(

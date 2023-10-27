@@ -1,25 +1,30 @@
 package com.example.hotel.DAO;
 
-import com.example.hotel.models.Reservation;
+import com.example.hotel.models.Guest;
 
 import java.sql.*;
+import java.time.LocalDate;
 
-public class ReservationDAO {
-    private final Connection connection;
+public class GuestDAO {
+    private Connection connection;
 
-    public ReservationDAO(Connection connection){
+    public GuestDAO(Connection connection){
         this.connection = connection;
     }
 
-    public long add(Reservation reservation){
+    public long register(Guest guest){
         try {
             final PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO reservations (check_in,check_out,total,payment) " +
-                    "VALUES (?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
-            statement.setDate(1, Date.valueOf(reservation.getCheckIn()));
-            statement.setDate(2, Date.valueOf(reservation.getCheckOut()));
-            statement.setDouble(3, reservation.getTotal());
-            statement.setString(4, reservation.getPayment());
+                "INSERT INTO guests (name,last_name,birthday,nationality,phone," +
+                    "reservation_id) values (?,?,?,?,?,?);",
+                Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, guest.getName());
+            statement.setString(2, guest.getLastName());
+            statement.setDate(3, Date.valueOf(guest.getBirthdate()));
+            statement.setString(4, guest.getNationality());
+            statement.setString(5, guest.getPhone());
+            statement.setLong(6, guest.getReservationId());
             statement.execute();
             try (statement) {
                 final ResultSet resultSet = statement.getGeneratedKeys();
@@ -29,18 +34,20 @@ public class ReservationDAO {
                     }
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }
+
         return 0;
     }
 
     public int delete(long id){
         try {
             final PreparedStatement statement = connection.prepareStatement(
-                "DELETE FROM reservations WHERE id=?");
-            statement.setLong(1,id);
+                "DELETE FROM guests WHERE id=?");
+            statement.setLong(1, id);
             statement.execute();
             try (statement) {
                 return statement.getUpdateCount();

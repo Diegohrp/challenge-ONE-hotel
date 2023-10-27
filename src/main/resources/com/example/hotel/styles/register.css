@@ -68,13 +68,17 @@
     -fx-background-color: #988A7F;
 }
 
-.choice-box{
+.combo-box{
     -fx-background-color:transparent;
     -fx-border-color: #988A7F;
     -fx-border-radius: 5px;
     -fx-border-width: 2px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #373636;
+    -fx-font-family: "Verdana";
     -fx-cursor: hand;
 }
+
 
 .next-button{
     -fx-pref-width: 100px;

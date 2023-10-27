@@ -6,4 +6,8 @@ public class Validate {
         return field != null && !field.equals("") &&
             (field.length() < maxLength && field.length() >= minLength);
     }
+
+    public static boolean validatePhone(String phone){
+        return phone.matches("^\\d{10}$");
+    }
 }
