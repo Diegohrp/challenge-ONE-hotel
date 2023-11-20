@@ -44,18 +44,42 @@ public class GuestDAO {
         return 0;
     }
 
-    public int delete(long id){
+    public int delete(Guest guest) throws SQLException{
         try {
-            final PreparedStatement statement = connection.prepareStatement(
+
+            this.connection.setAutoCommit(false);
+
+            final PreparedStatement guestStatement = connection.prepareStatement(
                 "DELETE FROM guests WHERE id=?");
-            try (statement) {
-                statement.setLong(1, id);
-                statement.execute();
-                return statement.getUpdateCount();
+
+            final PreparedStatement reservationStatement = connection.prepareStatement(
+                "DELETE FROM reservations WHERE id=?");
+
+            try (guestStatement; reservationStatement) {
+                int count = 0;
+
+                guestStatement.setLong(1, guest.getId());
+                guestStatement.execute();
+                count += guestStatement.getUpdateCount();
+
+                reservationStatement.setLong(1, guest.getReservationId());
+                reservationStatement.execute();
+                count += reservationStatement.getUpdateCount();
+
+                this.connection.commit();
+                return count;
             }
+
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            this.connection.rollback();
+            e.printStackTrace();
+            return 0;
+
+        } finally {
+            this.connection.setAutoCommit(true);
         }
+
     }
 
     public ArrayList<Guest> getAll(){
@@ -96,7 +120,7 @@ public class GuestDAO {
                 statement.setDate(3, Date.valueOf(guest.getBirthdate()));
                 statement.setString(4, guest.getNationality());
                 statement.setString(5, guest.getPhone());
-                statement.setLong(6,guest.getId());
+                statement.setLong(6, guest.getId());
                 statement.execute();
                 return statement.getUpdateCount();
             }

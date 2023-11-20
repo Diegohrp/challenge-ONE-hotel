@@ -44,27 +44,6 @@ public class GUIFeatures {
         }
     }
 
-    public static Alert createAlert(String title, String header, String content,
-                                    Alert.AlertType type){
-
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        return alert;
-    }
-
-    public static void exit(Stage stage){
-        Alert alert = createAlert("Salir",
-            "¿Estás seguro de que deseas salir de la aplicación?",
-            "Si sales de la aplicación, perderás todos los cambios no guardados. " +
-                "¿Deseas continuar?", Alert.AlertType.CONFIRMATION);
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            stage.close();
-        }
-    }
-
     private static void setComboBoxItem(ListCell<PaymentType> list, PaymentType item,
                                         boolean empty){
 
@@ -123,6 +102,4 @@ public class GUIFeatures {
         }
         return validData;
     }
-
-
 }

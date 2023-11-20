@@ -37,17 +37,60 @@ public class ReservationDAO {
         return 0;
     }
 
-    public int delete(long id){
+    /*
+        This method is used when the user is in register view and wants to return to
+        reservation view. The previous registered reservations must be deleted.
+    */
+    public void delete(long id){
         try {
             final PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM reservations WHERE id=?");
-            statement.setLong(1, id);
-            statement.execute();
             try (statement) {
-                return statement.getUpdateCount();
+                statement.setLong(1, id);
+                statement.execute();
+
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+
+        }
+    }
+
+    /*
+        This method is used when the user is in Search view at Reservation Tab and
+        wants to delete the reservation in the DB.
+    */
+
+    public int fullDelete(long id) throws SQLException{
+        try {
+            this.connection.setAutoCommit(false);
+
+            final PreparedStatement guestStatement = this.connection.prepareStatement(
+                "DELETE FROM guests WHERE reservation_id=?");
+            final PreparedStatement reservationStatement = this.connection.prepareStatement(
+                "DELETE FROM reservations WHERE id=?");
+
+            try (guestStatement; reservationStatement) {
+                int count = 0;
+
+                guestStatement.setLong(1, id);
+                guestStatement.execute();
+                count += guestStatement.getUpdateCount();
+
+                reservationStatement.setLong(1, id);
+                reservationStatement.execute();
+                count += guestStatement.getUpdateCount();
+
+                this.connection.commit();
+
+                return count;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.connection.rollback();
+            return 0;
+        } finally {
+            this.connection.setAutoCommit(true);
         }
     }
 

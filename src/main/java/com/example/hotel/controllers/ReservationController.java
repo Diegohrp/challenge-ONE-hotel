@@ -5,6 +5,7 @@ import com.example.hotel.DAO.ReservationDAO;
 import com.example.hotel.enums.PaymentType;
 import com.example.hotel.models.Reservation;
 import com.example.hotel.models.ReservationNumber;
+import com.example.hotel.utils.Alerts;
 import com.example.hotel.utils.GUIFeatures;
 import com.example.hotel.utils.factory.ConnectionFactory;
 import javafx.event.ActionEvent;
@@ -32,7 +33,7 @@ public class ReservationController implements Initializable {
     private ComboBox<PaymentType> paymentMethod;
     private final Reservation reservation;
     private final ReservationDAO reservationDAO;
-    private Alert errorAlert, warningAlert, successAlert;
+
     private boolean isDataValid;
 
     public ReservationController(){
@@ -45,8 +46,6 @@ public class ReservationController implements Initializable {
     @Override public void initialize(URL url, ResourceBundle resourceBundle){
         this.initComboBox();
         this.initDatePickers();
-        this.createAlerts();
-
     }
 
     public void next(ActionEvent event) throws IOException{
@@ -57,23 +56,20 @@ public class ReservationController implements Initializable {
             long reservationId = reservationDAO.add(reservation);
             if (reservationId > 0) {
                 ReservationNumber.num = reservationId;
-                successAlert.setContentText(
-                    "El código de la reservación es: " + ReservationNumber.num);
-                successAlert.show();
+                Alerts.successReservationAlert(ReservationNumber.num);
                 GUIFeatures.nextView("register.fxml", "register.css", event);
             } else {
                 //shows an error alert if an SQL exception happens
-                errorAlert.setHeaderText("Algo salió mal");
-                errorAlert.setContentText("Hubo un error al guardar la información.");
-                errorAlert.show();
+                Alerts.internalErrorAlert();
             }
         } else {
             //Shows an error alert if the data is not valid
-            errorAlert.show();
+            Alerts.wrongReservationDataAlert();
         }
     }
 
     public void back(ActionEvent event) throws IOException{
+        Alert warningAlert = Alerts.goBackAlert();
         if (warningAlert.showAndWait().get() == ButtonType.OK) {
             GUIFeatures.nextView("home.fxml", "home.css", event);
         }
@@ -91,6 +87,7 @@ public class ReservationController implements Initializable {
         this.validateDates(isCheckInValid, isCheckOutValid);
 
     }
+
     public void setCheckOut(ActionEvent event){
         boolean isCheckOutValid = this.reservation.setCheckOut(this.checkOut.getValue());
         boolean isCheckInValid = this.reservation.setCheckIn(this.checkIn.getValue());
@@ -101,11 +98,11 @@ public class ReservationController implements Initializable {
     private void validateDates(boolean validCheckIn, boolean validCheckOut){
 
         //Shows an error message in a label if the date is assigned and is not valid
-        if(this.reservation.getCheckIn() != null){
+        if (this.reservation.getCheckIn() != null) {
             GUIFeatures.ShowErrorLabel(validCheckIn, this.errorCheckIn,
                 "Check-in no debe ser anterior a hoy ni posterior al check-out.");
         }
-        if(this.reservation.getCheckOut() != null){
+        if (this.reservation.getCheckOut() != null) {
             GUIFeatures.ShowErrorLabel(validCheckOut, this.errorCheckOut,
                 "Check-out debe ser posterior al check-in y a hoy.");
         }
@@ -168,17 +165,4 @@ public class ReservationController implements Initializable {
         checkOut.setOnAction(this::setCheckOut);
     }
 
-    private void createAlerts(){
-        errorAlert = GUIFeatures.createAlert("Error al reservar", "Datos incorrectos",
-            "Por favor completa todos los campos de manera correcta",
-            Alert.AlertType.ERROR);
-        warningAlert = GUIFeatures.createAlert("Regresar",
-            "¿Estás seguro de que quieres regresar?",
-            "Si regresas, se perderá la información que no hayas guardado.",
-            Alert.AlertType.WARNING);
-        warningAlert.getButtonTypes().add(ButtonType.CANCEL);
-        successAlert = GUIFeatures.createAlert("Reservación exitosa",
-            "Se ha realizado la reservación de manera exitosa", "",
-            Alert.AlertType.INFORMATION);
-    }
 }

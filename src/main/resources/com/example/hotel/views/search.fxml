@@ -116,7 +116,7 @@
                   <String fx:value="edit-btn" />
                </styleClass>
             </Button>
-            <Button mnemonicParsing="false" text="Eliminar">
+            <Button mnemonicParsing="false" onAction="#delete" text="Eliminar">
                <styleClass>
                   <String fx:value="btn" />
                   <String fx:value="delete-btn" />

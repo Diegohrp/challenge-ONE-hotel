@@ -5,6 +5,7 @@ import com.example.hotel.DAO.ReservationDAO;
 import com.example.hotel.enums.Nationality;
 import com.example.hotel.models.Guest;
 import com.example.hotel.models.ReservationNumber;
+import com.example.hotel.utils.Alerts;
 import com.example.hotel.utils.GUIFeatures;
 import com.example.hotel.utils.factory.ConnectionFactory;
 import javafx.event.ActionEvent;
@@ -31,8 +32,6 @@ public class RegisterController implements Initializable {
     private final GuestDAO guestDAO;
     private final ReservationDAO reservationDAO;
 
-    private Alert errorAlert, warningAlert, successAlert;
-
 
     public RegisterController(){
         this.guest = new Guest();
@@ -54,8 +53,6 @@ public class RegisterController implements Initializable {
 
         this.reservationNumber.setText(Long.toString(ReservationNumber.num));
         this.guest.setReservationId(ReservationNumber.num);
-
-        this.createAlerts();
     }
 
     public void save(ActionEvent event) throws IOException{
@@ -69,26 +66,26 @@ public class RegisterController implements Initializable {
         this.guest.setNationality(this.nationalityInput.getValue());
         this.guest.setPhone(this.phoneInput.getText());
 
-        if (GUIFeatures.isGuestDataValid(this.guest, this.errorAlert)) {
+        Alert errorAlert = Alerts.wrongRegisterDataAlert();
+
+        if (GUIFeatures.isGuestDataValid(this.guest, errorAlert)) {
             long guestId = guestDAO.register(this.guest);
             if (guestId > 0) {
-                successAlert.show();
+                Alerts.successRegisterAlert();
                 GUIFeatures.nextView("home.fxml", "home.css", event);
             } else {
                 //shows an error alert if an SQL exception happens
-                errorAlert.setHeaderText("Algo salió mal");
-                errorAlert.setContentText("Hubo un error al guardar la información.");
-                errorAlert.show();
+                Alerts.internalErrorAlert();
             }
         } else {
-            this.errorAlert.show();
+            errorAlert.show();
         }
     }
 
     public void goBack(ActionEvent event) throws IOException{
-        this.warningAlert.setTitle("Regresar");
-        this.warningAlert.setHeaderText("¿Estás seguro de que quieres regresar?");
-        if (this.warningAlert.showAndWait().get() == ButtonType.OK) {
+        Alert warningAlert = Alerts.cancelRegisterAlert();
+
+        if (warningAlert.showAndWait().get() == ButtonType.OK) {
             reservationDAO.delete(ReservationNumber.num);
             ReservationNumber.num = 0;
             GUIFeatures.nextView("reservation.fxml", "reservation.css", event);
@@ -96,26 +93,14 @@ public class RegisterController implements Initializable {
     }
 
     public void cancel(ActionEvent event) throws IOException{
-        this.warningAlert.setTitle("Cancelar");
-        this.warningAlert.setHeaderText("¿Estás seguro de que quieres cancelar?");
-        if (this.warningAlert.showAndWait().get() == ButtonType.OK) {
+        Alert warningAlert = Alerts.cancelRegisterAlert();
+        warningAlert.setTitle("Cancelar");
+        warningAlert.setHeaderText("¿Estás seguro de que quieres cancelar?");
+
+        if (warningAlert.showAndWait().get() == ButtonType.OK) {
             reservationDAO.delete(ReservationNumber.num);
             ReservationNumber.num = 0;
             GUIFeatures.nextView("home.fxml", "home.css", event);
         }
-    }
-
-    private void createAlerts(){
-        errorAlert = GUIFeatures.createAlert("Error al registrar al huésped",
-            "Datos incorrectos", "Por favor completa todos los campos de manera correcta",
-            Alert.AlertType.ERROR);
-        warningAlert = GUIFeatures.createAlert("Regresar",
-            "¿Estás seguro de que quieres regresar?",
-            "Se perderá la información actual y se eliminará la " + "reservación.",
-            Alert.AlertType.WARNING);
-        warningAlert.getButtonTypes().add(ButtonType.CANCEL);
-        successAlert = GUIFeatures.createAlert("Registro exitoso",
-            "Se ha realizado el registro de manera exitosa.",
-            "Proceso de reservación completado", Alert.AlertType.INFORMATION);
     }
 }

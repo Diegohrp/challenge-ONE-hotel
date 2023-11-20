@@ -1,5 +1,6 @@
 package com.example.hotel;
 
+import com.example.hotel.utils.Alerts;
 import com.example.hotel.utils.GUIFeatures;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,12 +11,9 @@ import javafx.stage.WindowEvent;
 import java.io.IOException;
 
 public class Main extends Application {
-    @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader root = new FXMLLoader(
-            Main.class.getResource("views/home.fxml"));
-        String css = Main.class
-            .getResource("styles/home.css").toExternalForm();
+    @Override public void start(Stage stage) throws IOException{
+        FXMLLoader root = new FXMLLoader(Main.class.getResource("views/home.fxml"));
+        String css = Main.class.getResource("styles/home.css").toExternalForm();
 
         Scene scene = new Scene(root.load());
         scene.getStylesheets().add(css);
@@ -24,15 +22,14 @@ public class Main extends Application {
         stage.setResizable(false);
 
         //Shows an alert to confirm if the user really wants to leave the app
-        stage.setOnCloseRequest((WindowEvent event) ->{
+        stage.setOnCloseRequest((WindowEvent event) -> {
             event.consume();
-            GUIFeatures.exit(stage);
-
+            Alerts.exitAppAndAlert(stage);
         });
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         launch();
     }
 }

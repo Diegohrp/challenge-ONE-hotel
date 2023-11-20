@@ -6,6 +6,7 @@ import com.example.hotel.enums.Nationality;
 import com.example.hotel.enums.PaymentType;
 import com.example.hotel.models.Guest;
 import com.example.hotel.models.Reservation;
+import com.example.hotel.utils.Alerts;
 import com.example.hotel.utils.GUIFeatures;
 import com.example.hotel.utils.factory.ConnectionFactory;
 import javafx.collections.FXCollections;
@@ -18,10 +19,10 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DefaultStringConverter;
-import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,13 +42,11 @@ public class SearchController implements Initializable {
     private TableColumn<String, Double> totalCol;
     @FXML
     private TabPane tabPane;
-    @FXML
-    Alert successAlert, warningAlert, errorAlert;
-
     private final ReservationDAO reservationDAO;
     private final GuestDAO guestDAO;
 
     private ObservableList<Reservation> reservationsList;
+    private ObservableList<Guest> guestsList;
     private boolean validDates;
 
     public SearchController(){
@@ -70,20 +69,19 @@ public class SearchController implements Initializable {
     }
 
     public void showGuests(){
-        guestsTable.getItems().addAll(this.guestDAO.getAll());
+        this.guestsList = FXCollections.observableList(this.guestDAO.getAll());
+        this.guestsTable.setItems(this.guestsList);
     }
 
     public void showReservations(){
         this.reservationsList = FXCollections.observableList(
             this.reservationDAO.getAll());
-        reservationsTable.setItems(this.reservationsList);
+        this.reservationsTable.setItems(this.reservationsList);
     }
 
     @Override public void initialize(URL url, ResourceBundle resourceBundle){
         this.initGuestsSection();
         this.initReservationsSection();
-        this.createAlerts();
-
     }
 
     public void edit(ActionEvent event){
@@ -95,46 +93,82 @@ public class SearchController implements Initializable {
         }
     }
 
+    public void delete(ActionEvent event){
+        String tabName = tabPane.getSelectionModel().getSelectedItem().getText();
+        try {
+            if (tabName.equals("Huéspedes")) {
+                this.deleteGuest();
+            } else {
+                this.deleteReservation();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void editGuestInfo(){
         Guest guest = this.getSelectedGuest();
         if (guest != null) {
-            if (GUIFeatures.isGuestDataValid(guest, this.errorAlert)) {
+            Alert errorAlert = Alerts.wrongRegisterDataAlert();
+
+            if (GUIFeatures.isGuestDataValid(guest, errorAlert)) {
                 if (this.guestDAO.edit(guest) > 0) {
-                    this.successAlert.show();
+                    Alerts.successUpdateAlert();
                 } else {
-                    this.errorAlert.setHeaderText(
-                        "Algo sucedió mal, por favor intente más tarde");
-                    this.errorAlert.setContentText("");
-                    this.errorAlert.show();
+                    Alerts.internalErrorAlert();
                 }
             } else {
-                this.errorAlert.show();
+                errorAlert.show();
             }
         } else {
-            errorAlert.setHeaderText("No has seleccionado ningún registro");
-            errorAlert.setContentText("");
-            errorAlert.show();
+            Alerts.showNoSelectedFieldAlert();
         }
     }
 
     private void editReservation(){
         if (!this.validDates) {
-            errorAlert.show();
+            Alerts.wrongDatesAlert();
         } else {
             Reservation reservation = this.getSelectedReservation();
             if (reservation != null) {
                 if (reservationDAO.edit(reservation) > 0) {
-                    this.successAlert.show();
+                    Alerts.successUpdateAlert();
                 } else {
-                    this.errorAlert.setHeaderText(
-                        "Algo sucedió mal, por favor intente más tarde");
-                    this.errorAlert.setContentText("");
-                    this.errorAlert.show();
+                    Alerts.internalErrorAlert();
                 }
+            } else {
+                Alerts.showNoSelectedFieldAlert();
             }
         }
-
     }
+
+    private void deleteGuest() throws SQLException{
+        Guest guest = this.getSelectedGuest();
+        if (guest != null) {
+            if (guestDAO.delete(guest) > 1) {
+                Alerts.successDeleteAlert();
+                this.showGuests();
+                this.showReservations();
+            }
+        } else {
+            Alerts.showNoSelectedFieldAlert();
+        }
+    }
+
+    private void deleteReservation() throws SQLException{
+        Reservation reservation = this.getSelectedReservation();
+        if (reservation != null) {
+            if (this.reservationDAO.fullDelete(reservation.getId()) > 1) {
+                Alerts.successDeleteAlert();
+                this.showGuests();
+                this.showReservations();
+            } else {
+                Alerts.showNoSelectedFieldAlert();
+            }
+        }
+    }
+
 
     private void validateDates(String type, LocalDate date){
         boolean isCheckInValid;
@@ -150,14 +184,6 @@ public class SearchController implements Initializable {
             otherDate = this.getSelectedReservation().getCheckIn();
             isCheckInValid = this.getSelectedReservation().setCheckIn(otherDate);
         }
-
-        if (!isCheckInValid || !isCheckoutValid) {
-            errorAlert.setTitle("Datos incorrectos");
-            errorAlert.setContentText(
-                "Check-in no debe ser posterior a Chek-out y ambos deben ser " +
-                    "posteriores a hoy");
-        }
-
         //Calculates the total after setting both dates
         this.getSelectedReservation().calcTotal();
 
@@ -260,19 +286,5 @@ public class SearchController implements Initializable {
             ComboBoxTableCell.forTableColumn(FXCollections.observableList(list)));
         this.paymentCol.setOnEditCommit(
             event -> this.getSelectedReservation().setPayment(event.getNewValue()));
-    }
-
-    private void createAlerts(){
-        this.successAlert = GUIFeatures.createAlert("Operación exitosa",
-            "Registro editado con éxito",
-            "Se ha guardado la información que has modificado",
-            Alert.AlertType.INFORMATION);
-        this.errorAlert = GUIFeatures.createAlert("Error en la operación",
-            "Datos incorrectos", "Por favor completa todos los campos de manera correcta",
-            Alert.AlertType.ERROR);
-        warningAlert = GUIFeatures.createAlert("Regresar",
-            "¿Estás seguro de que quieres regresar?",
-            "Si regresas, se perderá la información que no hayas guardado.",
-            Alert.AlertType.WARNING);
     }
 }
