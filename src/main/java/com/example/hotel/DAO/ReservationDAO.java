@@ -73,4 +73,27 @@ public class ReservationDAO {
         }
         return reservations;
     }
+
+    public int edit(Reservation reservation){
+        try {
+            final PreparedStatement statement = this.connection.prepareStatement(
+                "UPDATE reservations SET check_in=?,check_out=?,total=?,payment=? " +
+                    "WHERE id=?");
+            try (statement) {
+
+                statement.setDate(1, Date.valueOf(reservation.getCheckIn()));
+                statement.setDate(2, Date.valueOf(reservation.getCheckOut()));
+                statement.setDouble(3, reservation.getTotal());
+                statement.setString(4, reservation.getPayment());
+                statement.setLong(5, reservation.getId());
+                statement.execute();
+
+                return statement.getUpdateCount();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

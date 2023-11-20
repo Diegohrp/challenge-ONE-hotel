@@ -48,11 +48,13 @@ public class SearchController implements Initializable {
     private final GuestDAO guestDAO;
 
     private ObservableList<Reservation> reservationsList;
+    private boolean validDates;
 
     public SearchController(){
         ConnectionFactory factory = new ConnectionFactory();
         guestDAO = new GuestDAO(factory.getConnection());
         reservationDAO = new ReservationDAO(factory.getConnection());
+        this.validDates = true;
     }
 
     private void initGuestsSection(){
@@ -91,7 +93,6 @@ public class SearchController implements Initializable {
         } else {
             this.editReservation();
         }
-
     }
 
     private void editGuestInfo(){
@@ -117,13 +118,50 @@ public class SearchController implements Initializable {
     }
 
     private void editReservation(){
-        Reservation reservation = this.getSelectedReservation();
-        System.out.println(reservation.getId());
-        System.out.println(reservation.getCheckIn());
-        System.out.println(reservation.getCheckOut());
-        System.out.println(reservation.getTotal());
-        System.out.println(reservation.getPayment());
+        if (!this.validDates) {
+            errorAlert.show();
+        } else {
+            Reservation reservation = this.getSelectedReservation();
+            if (reservation != null) {
+                if (reservationDAO.edit(reservation) > 0) {
+                    this.successAlert.show();
+                } else {
+                    this.errorAlert.setHeaderText(
+                        "Algo sucedió mal, por favor intente más tarde");
+                    this.errorAlert.setContentText("");
+                    this.errorAlert.show();
+                }
+            }
+        }
 
+    }
+
+    private void validateDates(String type, LocalDate date){
+        boolean isCheckInValid;
+        boolean isCheckoutValid;
+        LocalDate otherDate;
+
+        if (type.equals("CheckIn")) {
+            isCheckInValid = this.getSelectedReservation().setCheckIn(date);
+            otherDate = this.getSelectedReservation().getCheckOut();
+            isCheckoutValid = this.getSelectedReservation().setCheckOut(otherDate);
+        } else {
+            isCheckoutValid = this.getSelectedReservation().setCheckOut(date);
+            otherDate = this.getSelectedReservation().getCheckIn();
+            isCheckInValid = this.getSelectedReservation().setCheckIn(otherDate);
+        }
+
+        if (!isCheckInValid || !isCheckoutValid) {
+            errorAlert.setTitle("Datos incorrectos");
+            errorAlert.setContentText(
+                "Check-in no debe ser posterior a Chek-out y ambos deben ser " +
+                    "posteriores a hoy");
+        }
+
+        //Calculates the total after setting both dates
+        this.getSelectedReservation().calcTotal();
+
+        this.validDates = isCheckInValid && isCheckoutValid;
     }
 
     private Guest getSelectedGuest(){
@@ -195,6 +233,7 @@ public class SearchController implements Initializable {
         this.paymentCol.setCellValueFactory(new PropertyValueFactory<>("payment"));
     }
 
+
     private void makeReservationsTableEditable(){
         this.reservationsTable.setEditable(true);
 
@@ -202,23 +241,13 @@ public class SearchController implements Initializable {
         this.checkInCol.setCellFactory(
             TextFieldTableCell.forTableColumn(new LocalDateStringConverter()));
         this.checkInCol.setOnEditCommit(
-            event -> {
-                this.getSelectedReservation().setCheckIn(event.getNewValue());
-                int index = this.reservationsTable.getSelectionModel().getSelectedIndex();
-                LocalDate data = this.checkOutCol.getCellData(index);
-                this.getSelectedReservation().setCheckOut(data);
-            });
+            event -> this.validateDates("CheckIn", event.getNewValue()));
 
         this.checkOutCol.setEditable(true);
         this.checkOutCol.setCellFactory(
             TextFieldTableCell.forTableColumn(new LocalDateStringConverter()));
         this.checkOutCol.setOnEditCommit(
-            event -> {
-                this.getSelectedReservation().setCheckOut(event.getNewValue());
-                int index = this.reservationsTable.getSelectionModel().getSelectedIndex();
-                LocalDate data = this.checkInCol.getCellData(index);
-                this.getSelectedReservation().setCheckIn(data);
-            });
+            event -> this.validateDates("CheckOut", event.getNewValue()));
 
         /*
             When the user wants to edit this field, shows a combo box with the

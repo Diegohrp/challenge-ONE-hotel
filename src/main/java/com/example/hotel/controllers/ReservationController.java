@@ -98,7 +98,7 @@ public class ReservationController implements Initializable {
     }
 
 
-    public void validateDates(boolean validCheckIn, boolean validCheckOut){
+    private void validateDates(boolean validCheckIn, boolean validCheckOut){
 
         //Shows an error message in a label if the date is assigned and is not valid
         if(this.reservation.getCheckIn() != null){
