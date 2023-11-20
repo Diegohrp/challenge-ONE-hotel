@@ -92,6 +92,7 @@
     -fx-text-fill: #9b3232;
     -fx-font-size: 11px;
     -fx-padding: 0px;
-    -fx-pref-height: 20px;
+    -fx-pref-height: 25px;
+    -fx-pref-width: 500px;
     -fx-alignment: center;
 }

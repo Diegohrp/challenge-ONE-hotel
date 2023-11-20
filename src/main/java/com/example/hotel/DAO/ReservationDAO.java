@@ -3,6 +3,7 @@ package com.example.hotel.DAO;
 import com.example.hotel.models.Reservation;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ReservationDAO {
     private final Connection connection;
@@ -40,7 +41,7 @@ public class ReservationDAO {
         try {
             final PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM reservations WHERE id=?");
-            statement.setLong(1,id);
+            statement.setLong(1, id);
             statement.execute();
             try (statement) {
                 return statement.getUpdateCount();
@@ -48,5 +49,28 @@ public class ReservationDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public ArrayList<Reservation> getAll(){
+        final ArrayList<Reservation> reservations = new ArrayList<>();
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("SELECT * FROM reservations");
+            try (statement) {
+                ResultSet resultSet = statement.getResultSet();
+                try (resultSet) {
+                    while (resultSet.next()) {
+                        Reservation reservation = new Reservation(resultSet.getLong("id"),
+                            resultSet.getDate("check_in").toLocalDate(),
+                            resultSet.getDate("check_out").toLocalDate(),
+                            resultSet.getDouble("total"), resultSet.getString("payment"));
+                        reservations.add(reservation);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reservations;
     }
 }

@@ -7,9 +7,31 @@ import java.time.Period;
 
 
 public class Guest {
+    private long id;
     private String name, lastName, nationality, phone;
     private LocalDate birthdate;
     private long reservationId;
+
+    public Guest(){
+
+    }
+
+    public Guest(
+        long id,
+        String name,
+        String lastName,
+        LocalDate birthdate,
+        String nationality,
+        String phone,
+        long reservationId){
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.nationality = nationality;
+        this.phone = phone;
+        this.reservationId = reservationId;
+    }
 
     public void setName(String name){
         boolean isValid = Validate.validateNonEmpty(name, 200, 3);
@@ -64,6 +86,11 @@ public class Guest {
 
     public void setReservationId(long id){
         this.reservationId = id;
+    }
+
+
+    public long getId(){
+        return id;
     }
 
     public String getName(){

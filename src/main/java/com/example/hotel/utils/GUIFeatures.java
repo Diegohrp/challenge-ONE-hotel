@@ -2,8 +2,8 @@ package com.example.hotel.utils;
 
 import com.example.hotel.Main;
 import com.example.hotel.enums.PaymentType;
+import com.example.hotel.models.Guest;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -44,11 +44,8 @@ public class GUIFeatures {
         }
     }
 
-    public static Alert createAlert(
-        String title,
-        String header,
-        String content,
-        Alert.AlertType type){
+    public static Alert createAlert(String title, String header, String content,
+                                    Alert.AlertType type){
 
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -68,27 +65,23 @@ public class GUIFeatures {
         }
     }
 
-    private static void setComboBoxItem(
-        ListCell<PaymentType> list,
-        PaymentType item,
-        boolean empty){
+    private static void setComboBoxItem(ListCell<PaymentType> list, PaymentType item,
+                                        boolean empty){
 
-        if(empty || item == null){
+        if (empty || item == null) {
             list.setGraphic(null);
-        }else{
+        } else {
             HBox hBox = new HBox(5);
             Label label = new Label();
             label.setText(item.getText());
 
-            Image image =
-                new Image(Objects.requireNonNull(
-                    Main.class.getResourceAsStream(
-                        "assets/icons/" + item.getIcon())));
+            Image image = new Image(Objects.requireNonNull(
+                Main.class.getResourceAsStream("assets/icons/" + item.getIcon())));
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(30);
             imageView.setFitHeight(30);
 
-            hBox.getChildren().addAll(label,imageView);
+            hBox.getChildren().addAll(label, imageView);
             hBox.setAlignment(Pos.CENTER);
 
             list.setGraphic(hBox);
@@ -98,12 +91,38 @@ public class GUIFeatures {
     }
 
     public static ListCell<PaymentType> createListCell(){
-        return new ListCell<>(){
+        return new ListCell<>() {
             @Override protected void updateItem(PaymentType paymentType, boolean empty){
                 super.updateItem(paymentType, empty);
-                GUIFeatures.setComboBoxItem(this,paymentType,empty);
+                GUIFeatures.setComboBoxItem(this, paymentType, empty);
             }
         };
     }
+
+    public static boolean isGuestDataValid(Guest guest, Alert errorAlert){
+        boolean validData = false;
+        boolean emptyFields = guest.getName() == null && guest.getLastName() == null &&
+            guest.getBirthdate() == null && guest.getNationality() == null &&
+            guest.getPhone() == null;
+        errorAlert.setHeaderText("Datos incorrectos");
+        if (emptyFields) {
+            errorAlert.setContentText(
+                "Por favor completa todos los campos de manera correcta");
+        } else if (guest.getName() == null) {
+            errorAlert.setContentText(
+                "Nombre debe tener al menos 3 " + "dígitos y no ser muy largo");
+        } else if (guest.getLastName() == null) {
+            errorAlert.setContentText(
+                "Apellido debe tener al menos 3 " + "dígitos y no ser muy largo");
+        } else if (guest.getBirthdate() == null) {
+            errorAlert.setContentText("El huésped no es mayor de edad");
+        } else if (guest.getPhone() == null) {
+            errorAlert.setContentText("Formato de teléfono no válido");
+        } else {
+            validData = true;
+        }
+        return validData;
+    }
+
 
 }
