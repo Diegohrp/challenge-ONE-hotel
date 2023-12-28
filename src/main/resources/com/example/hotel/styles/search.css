@@ -128,3 +128,10 @@
 .delete-btn:hover{
     -fx-background-color: #9b3232
 }
+
+.back-button{
+    -fx-background-color: #bb6622a1
+}
+.back-button:hover{
+    -fx-background-color: #ad6021
+}

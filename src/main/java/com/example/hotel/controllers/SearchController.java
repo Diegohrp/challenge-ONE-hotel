@@ -22,6 +22,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -227,6 +228,9 @@ public class SearchController implements Initializable {
         this.reservationsTable.setItems(this.reservationsList);
     }
 
+    public void goBack(ActionEvent event) throws IOException{
+        GUIFeatures.nextView("home.fxml","home.css",event);
+    }
 
     private void guestsValueFactory(){
         this.guestIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
