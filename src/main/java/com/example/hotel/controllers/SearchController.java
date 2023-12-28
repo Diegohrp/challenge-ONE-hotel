@@ -98,17 +98,19 @@ public class SearchController implements Initializable {
     }
 
     public void delete(ActionEvent event){
-        String tabName = tabPane.getSelectionModel().getSelectedItem().getText();
-        try {
-            if (tabName.equals("Huéspedes")) {
-                this.deleteGuest();
-            } else {
-                this.deleteReservation();
+        Alert alert = Alerts.wantToDeleteAlert();
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            String tabName = tabPane.getSelectionModel().getSelectedItem().getText();
+            try {
+                if (tabName.equals("Huéspedes")) {
+                    this.deleteGuest();
+                } else {
+                    this.deleteReservation();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
     }
 
     private void editGuestInfo(){
@@ -229,7 +231,7 @@ public class SearchController implements Initializable {
     }
 
     public void goBack(ActionEvent event) throws IOException{
-        GUIFeatures.nextView("home.fxml","home.css",event);
+        GUIFeatures.nextView("home.fxml", "home.css", event);
     }
 
     private void guestsValueFactory(){

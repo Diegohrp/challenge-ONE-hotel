@@ -61,6 +61,13 @@ public class Alerts {
         return alert;
     }
 
+    /*Confirmation alerts*/
+    public static Alert wantToDeleteAlert(){
+        return createAlert("Eliminar registro", "¿Estás seguro de eliminar?",
+            "Se borrará la información tanto de la reserva como la del huésped",
+            Alert.AlertType.CONFIRMATION);
+    }
+
 
     /* Error alerts */
     public static void wrongIdAlert(){
