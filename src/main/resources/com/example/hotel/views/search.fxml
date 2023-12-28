@@ -88,8 +88,8 @@
             <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="372.0" styleClass="title" text="SISTEMA DE BÚSQUEDA" />
             <HBox alignment="BOTTOM_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="223.0">
                <children>
-                  <TextField styleClass="search-bar" />
-                  <Button mnemonicParsing="false" prefHeight="8.0" prefWidth="23.0" styleClass="search-button">
+                  <TextField fx:id="searchBar" onAction="#search" styleClass="search-bar" />
+                  <Button mnemonicParsing="false" onAction="#search" prefHeight="8.0" prefWidth="23.0" styleClass="search-button">
                      <graphic>
                         <ImageView fitHeight="19.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" styleClass="search-button">
                            <image>
@@ -108,9 +108,9 @@
             </HBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER_RIGHT" layoutX="15.0" layoutY="437.0" prefHeight="63.0" prefWidth="712.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="15.0" layoutY="437.0" prefHeight="63.0" prefWidth="722.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#edit" text="Editar">
+            <Button mnemonicParsing="false" onAction="#goBack" text="Regresar">
                <styleClass>
                   <String fx:value="btn" />
                   <String fx:value="edit-btn" />
@@ -120,6 +120,12 @@
                <styleClass>
                   <String fx:value="btn" />
                   <String fx:value="delete-btn" />
+               </styleClass>
+            </Button>
+            <Button layoutX="605.0" layoutY="29.0" mnemonicParsing="false" onAction="#edit" text="Editar">
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="edit-btn" />
                </styleClass>
             </Button>
          </children>

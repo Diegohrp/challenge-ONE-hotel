@@ -129,4 +129,32 @@ public class GuestDAO {
             return 0;
         }
     }
+
+    public ArrayList<Guest> getAll(String lastName){
+        ArrayList<Guest> result = new ArrayList<>();
+        try {
+            final PreparedStatement statement = this.connection.prepareStatement(
+                "SELECT * FROM guests WHERE last_name LIKE ?");
+            try (statement) {
+                statement.setString(1, "%" + lastName + "%");
+                statement.execute();
+                final ResultSet resultSet = statement.getResultSet();
+                try (resultSet) {
+                    while (resultSet.next()) {
+                        Guest guest = new Guest(resultSet.getLong("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("last_name"),
+                            resultSet.getDate("birthday").toLocalDate(),
+                            resultSet.getString("nationality"),
+                            resultSet.getString("phone"),
+                            resultSet.getLong("reservation_id"));
+                        result.add(guest);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

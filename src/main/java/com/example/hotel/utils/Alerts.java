@@ -63,6 +63,12 @@ public class Alerts {
 
 
     /* Error alerts */
+    public static void wrongIdAlert(){
+        createAlert("Error", "El id debe ser un número",
+            "Para buscar entre las reservaciones debes colocar el id",
+            Alert.AlertType.ERROR).show();
+    }
+
     public static void loginErrorAlert(){
         createAlert("Error", "Usuario y/o contraseña incorrectos",
             "Por favor, asegúrate de que las credenciales sean correctas y vuelve a " +

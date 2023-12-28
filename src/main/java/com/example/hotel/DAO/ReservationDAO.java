@@ -3,6 +3,7 @@ package com.example.hotel.DAO;
 import com.example.hotel.models.Reservation;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ReservationDAO {
@@ -138,5 +139,34 @@ public class ReservationDAO {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public ArrayList<Reservation> getAllById(long id){
+        ArrayList<Reservation> result = new ArrayList<>();
+        try {
+            final PreparedStatement statement = this.connection.prepareStatement(
+                "SELECT * FROM reservations WHERE id = ? OR id LIKE ?");
+            try (statement) {
+                statement.setLong(1, id);
+                statement.setString(2, "%" + id + "%");
+                statement.execute();
+                final ResultSet resultSet = statement.getResultSet();
+                try (resultSet) {
+                    while (resultSet.next()) {
+                        Reservation reservation = new Reservation(
+                            resultSet.getLong("id"),
+                            resultSet.getDate("check_in").toLocalDate(),
+                            resultSet.getDate("check_out").toLocalDate(),
+                            resultSet.getDouble("total"),
+                            resultSet.getString("payment"));
+                        result.add(reservation);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

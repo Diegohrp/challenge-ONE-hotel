@@ -9,6 +9,7 @@ import com.example.hotel.models.Reservation;
 import com.example.hotel.utils.Alerts;
 import com.example.hotel.utils.GUIFeatures;
 import com.example.hotel.utils.factory.ConnectionFactory;
+import com.example.hotel.utils.validate.Validate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,6 +43,8 @@ public class SearchController implements Initializable {
     private TableColumn<String, Double> totalCol;
     @FXML
     private TabPane tabPane;
+    @FXML
+    private TextField searchBar;
     private final ReservationDAO reservationDAO;
     private final GuestDAO guestDAO;
 
@@ -196,6 +199,32 @@ public class SearchController implements Initializable {
 
     private Reservation getSelectedReservation(){
         return this.reservationsTable.getSelectionModel().getSelectedItem();
+    }
+
+    public void search(ActionEvent event){
+        if (!this.searchBar.getText().isBlank()) {
+            String tabName = this.tabPane.getSelectionModel().getSelectedItem().getText();
+            if (tabName.equals("Huéspedes")) {
+                this.searchGuest(searchBar.getText());
+            } else {
+                if (Validate.isNumericLong(this.searchBar.getText())) {
+                    this.searchReservation(Long.parseLong(this.searchBar.getText()));
+                } else {
+                    Alerts.wrongIdAlert();
+                }
+            }
+        }
+    }
+
+    private void searchGuest(String lastName){
+        this.guestsList = FXCollections.observableList(this.guestDAO.getAll(lastName));
+        this.guestsTable.setItems(this.guestsList);
+    }
+
+    private void searchReservation(long id){
+        this.reservationsList = FXCollections.observableList(
+            this.reservationDAO.getAllById(id));
+        this.reservationsTable.setItems(this.reservationsList);
     }
 
 

@@ -10,4 +10,8 @@ public class Validate {
     public static boolean validatePhone(String phone){
         return phone.matches("^\\d{10}$");
     }
+
+    public static boolean isNumericLong(String num){
+        return num.matches("^\\d+$");
+    }
 }
