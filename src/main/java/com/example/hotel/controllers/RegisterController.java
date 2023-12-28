@@ -66,16 +66,16 @@ public class RegisterController implements Initializable {
         this.guest.setNationality(this.nationalityInput.getValue());
         this.guest.setPhone(this.phoneInput.getText());
 
-        Alert errorAlert = Alerts.wrongRegisterDataAlert();
+        Alert errorAlert = Alerts.wrongRegisterDataAlert(event);
 
         if (GUIFeatures.isGuestDataValid(this.guest, errorAlert)) {
             long guestId = guestDAO.register(this.guest);
             if (guestId > 0) {
-                Alerts.successRegisterAlert();
+                Alerts.successRegisterAlert(event);
                 GUIFeatures.nextView("home.fxml", "home.css", event);
             } else {
                 //shows an error alert if an SQL exception happens
-                Alerts.internalErrorAlert();
+                Alerts.internalErrorAlert(event);
             }
         } else {
             errorAlert.show();
@@ -83,7 +83,7 @@ public class RegisterController implements Initializable {
     }
 
     public void goBack(ActionEvent event) throws IOException{
-        Alert warningAlert = Alerts.cancelRegisterAlert();
+        Alert warningAlert = Alerts.cancelRegisterAlert(event);
 
         if (warningAlert.showAndWait().get() == ButtonType.OK) {
             reservationDAO.delete(ReservationNumber.num);
@@ -93,7 +93,7 @@ public class RegisterController implements Initializable {
     }
 
     public void cancel(ActionEvent event) throws IOException{
-        Alert warningAlert = Alerts.cancelRegisterAlert();
+        Alert warningAlert = Alerts.cancelRegisterAlert(event);
         warningAlert.setTitle("Cancelar");
         warningAlert.setHeaderText("¿Estás seguro de que quieres cancelar?");
 

@@ -16,7 +16,7 @@
 
 <SplitPane dividerPositions="0.5631720430107527" nodeOrientation="RIGHT_TO_LEFT" prefHeight="514.0" prefWidth="746.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controllers.RegisterController">
    <items>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="370.0" styleClass="container">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="370.0" styleClass="register-container">
          <children>
             <VBox alignment="TOP_CENTER" layoutX="253.0" layoutY="74.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                <children>
@@ -28,44 +28,48 @@
                         <Insets bottom="-15.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="316.0" styleClass="title" text="Registro Huésped" VBox.vgrow="ALWAYS">
+                  <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="316.0" text="Registro Huésped" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                     <styleClass>
+                        <String fx:value="txt-label" />
+                        <String fx:value="title" />
+                     </styleClass>
                   </Label>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="127.0" prefWidth="636.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" text="Nombre" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" styleClass="txt-label" text="Nombre" />
                         <TextField fx:id="nameInput" alignment="CENTER_RIGHT" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefWidth="636.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" text="Apellido" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" styleClass="txt-label" text="Apellido" />
                         <TextField fx:id="lastNameInput" alignment="CENTER_RIGHT" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="123.0" prefWidth="636.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" text="Fecha de nacimiento" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" styleClass="txt-label" text="Fecha de nacimiento" />
                         <DatePicker fx:id="birthdateInput" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="387.0" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="185.0" prefWidth="636.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" text="Nacionalidad" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" styleClass="txt-label" text="Nacionalidad" />
                         <ComboBox fx:id="nationalityInput" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="375.0" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="312.0" prefWidth="636.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" text="Teléfono" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" styleClass="txt-label" text="Teléfono" />
                         <TextField fx:id="phoneInput" alignment="CENTER_RIGHT" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="371.0" prefWidth="636.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" text="Número de reserva" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="407.0" styleClass="txt-label" text="Número de reserva" />
                         <TextField fx:id="reservationNumber" alignment="CENTER_RIGHT" editable="false" />
                      </children>
                   </VBox>

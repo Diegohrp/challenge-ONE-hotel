@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -14,7 +15,7 @@
 
 <SplitPane dividerPositions="0.5631720430107527" prefHeight="514.0" prefWidth="746.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controllers.ReservationController">
    <items>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="416.0" styleClass="container">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="416.0" styleClass="reservation-container">
          <children>
             <VBox alignment="TOP_CENTER" layoutX="253.0" layoutY="74.0" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                <children>
@@ -26,22 +27,26 @@
                         <Insets bottom="-15.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="316.0" styleClass="title" text="Sistema de Reservas" VBox.vgrow="ALWAYS">
+                  <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="316.0" text="Sistema de Reservas" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
+                     <styleClass>
+                        <String fx:value="txt-label" />
+                        <String fx:value="title" />
+                     </styleClass>
                   </Label>
                   <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="638.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="28.0" prefWidth="179.0">
                            <children>
-                              <Label text="Check-in" />
+                              <Label styleClass="txt-label" text="Check-in" />
                               <DatePicker fx:id="checkIn" editable="false" nodeOrientation="LEFT_TO_RIGHT" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="228.0" layoutY="10.0" prefWidth="200.0">
                            <children>
-                              <Label text="Check-out" />
+                              <Label styleClass="txt-label" text="Check-out" />
                               <DatePicker fx:id="checkOut" editable="false" nodeOrientation="LEFT_TO_RIGHT" />
                            </children>
                         </VBox>
@@ -49,16 +54,20 @@
                   </HBox>
                   <VBox alignment="BOTTOM_CENTER" prefWidth="376.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="22.0" prefWidth="177.0" text="Total a pagar" />
-                        <Label fx:id="totalPrice" alignment="CENTER" prefHeight="17.0" prefWidth="391.0" styleClass="total" text="\$ 0.00 MXN">
+                        <Label alignment="CENTER" prefHeight="22.0" prefWidth="177.0" styleClass="txt-label" text="Total a pagar" />
+                        <Label fx:id="totalPrice" alignment="CENTER" prefHeight="17.0" prefWidth="391.0" text="\$ 0.00 MXN">
                            <opaqueInsets>
                               <Insets top="10.0" />
-                           </opaqueInsets></Label>
+                           </opaqueInsets>
+                           <styleClass>
+                              <String fx:value="txt-label" />
+                              <String fx:value="total" />
+                           </styleClass></Label>
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="127.0" prefWidth="636.0">
                      <children>
-                        <Label text="Forma de pago" />
+                        <Label styleClass="txt-label" text="Forma de pago" />
                         <ComboBox fx:id="paymentMethod" prefHeight="25.0" prefWidth="269.0" />
                      </children>
                   </VBox>

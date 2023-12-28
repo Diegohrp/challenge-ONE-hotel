@@ -30,7 +30,7 @@
                   <Insets left="30.0" right="30.0" />
                </padding>
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#goToReservation" text="   Reservas">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#goToReservation" styleClass="btn" text="   Reservas">
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -49,7 +49,7 @@
                   <Insets left="30.0" right="30.0" />
                </padding>
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#goToSearch" text="Búsqueda">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#goToSearch" styleClass="btn" text="Búsqueda">
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -65,9 +65,9 @@
                   <Insets left="30.0" right="30.0" />
                </padding>
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#logout" prefHeight="58.0" prefWidth="122.0" text="   Logout">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#logout" prefHeight="58.0" prefWidth="122.0" styleClass="btn" text="   Logout">
                      <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="btn">
                            <image>
                               <Image url="@../assets/icons/logout-icon.png" />
                            </image>

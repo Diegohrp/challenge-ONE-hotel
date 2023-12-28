@@ -91,21 +91,21 @@ public class SearchController implements Initializable {
     public void edit(ActionEvent event){
         String tabName = tabPane.getSelectionModel().getSelectedItem().getText();
         if (tabName.equals("Huéspedes")) {
-            this.editGuestInfo();
+            this.editGuestInfo(event);
         } else {
-            this.editReservation();
+            this.editReservation(event);
         }
     }
 
     public void delete(ActionEvent event){
-        Alert alert = Alerts.wantToDeleteAlert();
+        Alert alert = Alerts.wantToDeleteAlert(event);
         if (alert.showAndWait().get() == ButtonType.OK) {
             String tabName = tabPane.getSelectionModel().getSelectedItem().getText();
             try {
                 if (tabName.equals("Huéspedes")) {
-                    this.deleteGuest();
+                    this.deleteGuest(event);
                 } else {
-                    this.deleteReservation();
+                    this.deleteReservation(event);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -113,64 +113,64 @@ public class SearchController implements Initializable {
         }
     }
 
-    private void editGuestInfo(){
+    private void editGuestInfo(ActionEvent event){
         Guest guest = this.getSelectedGuest();
         if (guest != null) {
-            Alert errorAlert = Alerts.wrongRegisterDataAlert();
+            Alert errorAlert = Alerts.wrongRegisterDataAlert(event);
 
             if (GUIFeatures.isGuestDataValid(guest, errorAlert)) {
                 if (this.guestDAO.edit(guest) > 0) {
-                    Alerts.successUpdateAlert();
+                    Alerts.successUpdateAlert(event);
                 } else {
-                    Alerts.internalErrorAlert();
+                    Alerts.internalErrorAlert(event);
                 }
             } else {
                 errorAlert.show();
             }
         } else {
-            Alerts.showNoSelectedFieldAlert();
+            Alerts.showNoSelectedFieldAlert(event);
         }
     }
 
-    private void editReservation(){
+    private void editReservation(ActionEvent event){
         if (!this.validDates) {
-            Alerts.wrongDatesAlert();
+            Alerts.wrongDatesAlert(event);
         } else {
             Reservation reservation = this.getSelectedReservation();
             if (reservation != null) {
                 if (reservationDAO.edit(reservation) > 0) {
-                    Alerts.successUpdateAlert();
+                    Alerts.successUpdateAlert(event);
                 } else {
-                    Alerts.internalErrorAlert();
+                    Alerts.internalErrorAlert(event);
                 }
             } else {
-                Alerts.showNoSelectedFieldAlert();
+                Alerts.showNoSelectedFieldAlert(event);
             }
         }
     }
 
-    private void deleteGuest() throws SQLException{
+    private void deleteGuest(ActionEvent event) throws SQLException{
         Guest guest = this.getSelectedGuest();
         if (guest != null) {
             if (guestDAO.delete(guest) > 1) {
-                Alerts.successDeleteAlert();
+                Alerts.successDeleteAlert(event);
                 this.showGuests();
                 this.showReservations();
             }
         } else {
-            Alerts.showNoSelectedFieldAlert();
+            Alerts.showNoSelectedFieldAlert(event);
         }
     }
 
-    private void deleteReservation() throws SQLException{
+    private void deleteReservation(ActionEvent event) throws SQLException{
         Reservation reservation = this.getSelectedReservation();
         if (reservation != null) {
             if (this.reservationDAO.fullDelete(reservation.getId()) > 1) {
-                Alerts.successDeleteAlert();
+                Alerts.successDeleteAlert(event);
                 this.showGuests();
                 this.showReservations();
             } else {
-                Alerts.showNoSelectedFieldAlert();
+                Alerts.showNoSelectedFieldAlert(event);
             }
         }
     }
@@ -213,7 +213,7 @@ public class SearchController implements Initializable {
                 if (Validate.isNumericLong(this.searchBar.getText())) {
                     this.searchReservation(Long.parseLong(this.searchBar.getText()));
                 } else {
-                    Alerts.wrongIdAlert();
+                    Alerts.wrongIdAlert(event);
                 }
             }
         }

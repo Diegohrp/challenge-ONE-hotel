@@ -3,11 +3,11 @@
     -fx-background-color: transparent;
 }
 
-.container{
+.reservation-container{
     -fx-background-color:#f7f0e7;
 }
 
-.label{
+.txt-label, .combo-box .label{
     -fx-font-size: 14px;
     -fx-text-fill: #373636;
     -fx-font-family: "Verdana";

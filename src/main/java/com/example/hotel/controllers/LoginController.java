@@ -57,7 +57,7 @@ public class LoginController {
             if (user.authenticate(hashedPassword)) {
                 GUIFeatures.nextView("home.fxml", "home.css", event);
             } else {
-                Alerts.loginErrorAlert();
+                Alerts.loginErrorAlert(event);
             }
         }
 

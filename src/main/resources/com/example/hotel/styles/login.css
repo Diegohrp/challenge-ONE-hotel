@@ -1,10 +1,10 @@
-.container{
+.login-container{
     -fx-background-color: #f7f0e785;
     -fx-background-radius: 5px;
     -fx-padding: 20px;
 }
 
-.label{
+.txt-label{
     -fx-font-size: 15px;
     -fx-text-fill: #373636;
     -fx-font-weight: bold;
@@ -18,7 +18,7 @@
     -fx-faint-focus-color: transparent;
 }
 
-.button{
+.btn{
     -fx-pref-width: 180px;
     -fx-pref-height: 40px;
     -fx-background-color: #988A7F;
@@ -29,7 +29,7 @@
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
-.button:hover{
+.btn:hover{
     -fx-background-color: #8C6D3C;
 }
 

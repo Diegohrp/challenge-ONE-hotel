@@ -19,7 +19,7 @@ public class HomeController {
     }
 
     public void logout(ActionEvent event) throws IOException{
-        Alert alert = Alerts.logoutAlert();
+        Alert alert = Alerts.logoutAlert(event);
         if (alert.showAndWait().get() == ButtonType.OK) {
             GUIFeatures.nextView("login.fxml", "login.css", event);
         }

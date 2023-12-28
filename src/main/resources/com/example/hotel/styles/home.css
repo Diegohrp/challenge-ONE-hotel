@@ -4,7 +4,7 @@
     -fx-padding: 20px;
 }
 
-.button{
+.btn{
     -fx-pref-width: 180px;
     -fx-pref-height: 50px;
     -fx-background-color: #f7f0e7;
@@ -15,11 +15,7 @@
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
-.button:hover{
+.btn:hover{
     -fx-background-color: #8C6D3C;
     -fx-text-fill: white;
-}
-
-.icon{
-
 }

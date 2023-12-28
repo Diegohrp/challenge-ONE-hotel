@@ -56,20 +56,20 @@ public class ReservationController implements Initializable {
             long reservationId = reservationDAO.add(reservation);
             if (reservationId > 0) {
                 ReservationNumber.num = reservationId;
-                Alerts.successReservationAlert(ReservationNumber.num);
+                Alerts.successReservationAlert(ReservationNumber.num,event);
                 GUIFeatures.nextView("register.fxml", "register.css", event);
             } else {
                 //shows an error alert if an SQL exception happens
-                Alerts.internalErrorAlert();
+                Alerts.internalErrorAlert(event);
             }
         } else {
             //Shows an error alert if the data is not valid
-            Alerts.wrongReservationDataAlert();
+            Alerts.wrongReservationDataAlert(event);
         }
     }
 
     public void back(ActionEvent event) throws IOException{
-        Alert warningAlert = Alerts.goBackAlert();
+        Alert warningAlert = Alerts.goBackAlert(event);
         if (warningAlert.showAndWait().get() == ButtonType.OK) {
             GUIFeatures.nextView("home.fxml", "home.css", event);
         }
