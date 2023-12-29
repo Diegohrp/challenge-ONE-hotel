@@ -43,7 +43,7 @@ You can see a table of guests and reservations and search between them by guest'
 
 ## Demo
 
-**Login**
+### Login
 
 - To login to the app credentials are required.
 - The system validates the introduced credentials are in the data base.
@@ -52,7 +52,7 @@ You can see a table of guests and reservations and search between them by guest'
 
 ![App Screenshot](/demo/login.gif)
 
-**Make a reservation**
+### Make a reservation
 
 - The system asks for check-in and check-out dates.
 - Check-in must be before check-out and both must be after the current date.
@@ -62,7 +62,7 @@ You can see a table of guests and reservations and search between them by guest'
 
 ![App Screenshot](/demo/reservation.gif)
 
-**Register guest**
+ ### Register guest
 
 - Guest's information is required and the customer must be 18 years or older.
 - The system validates if the phone number is in the right format.
@@ -70,7 +70,7 @@ You can see a table of guests and reservations and search between them by guest'
 
 ![App Screenshot](/demo/register.gif)
 
-**Search guest**
+### Search guest
 
 - A table of guests is shown and the administrator can edit the guest's information from there or delete the selected register.
 - The fields are validated like phone number format or birthdate.
@@ -78,7 +78,7 @@ You can see a table of guests and reservations and search between them by guest'
 
 ![App Screenshot](/demo/search-guest.gif)
 
-**Search reservation**
+### Search reservation
 
 - A table with all the reservations in the system is shown and the administrator can edit or delete a selected register.
 - Check-in and check-out dates are validated before the update is send to the database.
@@ -87,7 +87,7 @@ You can see a table of guests and reservations and search between them by guest'
 
 ![App Screenshot](/demo/search-reservation.gif)
 
-**Logout**
+### Logout
 
 - The system asks for confirmation befor logging out.
 - The administrator has to introduce the credentials again.
@@ -132,7 +132,7 @@ This project is under the MIT License
 ## Authors
 This project was developed by [Diego Herrera Prado](https://www.linkedin.com/in/diego-hp/) as part of a challenge from the Oracle Next Education program.
 
-Feel free to reach out if you have any suggestion or if you want to work with me.
+Feel free to reach out if you have any suggestion or if you want to work with me 😀.
 
 
 ## Attributions
