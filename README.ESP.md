@@ -46,7 +46,7 @@ huésped o el número de reserva, respectivamente.
 
 ## Demo
 
-**Inicio de Sesión**
+### Inicio de Sesión
 
 - Para iniciar sesión en la aplicación se requieren credenciales.
 - El sistema valida que las credenciales introducidas estén en la base de datos.
@@ -55,7 +55,7 @@ huésped o el número de reserva, respectivamente.
 
 ![App Screenshot](/demo/login.gif)
 
-**Hacer una Reserva**
+### Hacer una Reserva
 
 - El sistema solicita las fechas de check-in y check-out.
 - El check-in debe ser antes del check-out y ambos deben ser después de la fecha actual.
@@ -66,7 +66,7 @@ huésped o el número de reserva, respectivamente.
 
 ![App Screenshot](/demo/reservation.gif)
 
-**Registrar Huésped**
+### Registrar Huésped
 
 - Se requiere información del huésped y el cliente debe tener 18 años o más.
 - El sistema valida si el número de teléfono está en el formato correcto.
@@ -75,7 +75,7 @@ huésped o el número de reserva, respectivamente.
 
 ![App Screenshot](/demo/register.gif)
 
-**Buscar Huésped**
+### Buscar Huésped
 
 - Se muestra una tabla de huéspedes y el administrador puede editar la información del 
 huésped desde allí o eliminar el registro seleccionado.
@@ -85,7 +85,7 @@ huésped desde allí o eliminar el registro seleccionado.
 
 ![App Screenshot](/demo/search-guest.gif)
 
-**Buscar Reserva**
+### Buscar Reserva
 
 - Se muestra una tabla con todas las reservas en el sistema y el administrador puede 
 editar o eliminar un registro seleccionado.
@@ -145,7 +145,7 @@ Este proyecto está bajo la Licencia MIT
 
 Este proyecto fue desarrollado por [Diego Herrera Prado](https://www.linkedin.com/in/diego-hp/) como parte de un desafío del programa Oracle Next Education.
 
-No dudes en ponerte en contacto si tienes alguna sugerencia o si quieres trabajar conmigo.
+No dudes en ponerte en contacto si tienes alguna sugerencia o si quieres trabajar conmigo 😀.
 
 
 ## Atribuciones
