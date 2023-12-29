@@ -97,7 +97,7 @@ editar o eliminar un registro seleccionado.
 
 ![App Screenshot](/demo/search-reservation.gif)
 
-**Cerrar Sesión**
+### Cerrar Sesión
 
 - El sistema solicita confirmación antes de cerrar sesión.
 - El administrador debe introducir las credenciales nuevamente.
