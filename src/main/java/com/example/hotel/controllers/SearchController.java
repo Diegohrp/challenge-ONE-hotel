@@ -101,78 +101,92 @@ public class SearchController implements Initializable {
         Alert alert = Alerts.wantToDeleteAlert(event);
         if (alert.showAndWait().get() == ButtonType.OK) {
             String tabName = tabPane.getSelectionModel().getSelectedItem().getText();
-            try {
-                if (tabName.equals("Huéspedes")) {
-                    this.deleteGuest(event);
-                } else {
-                    this.deleteReservation(event);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (tabName.equals("Huéspedes")) {
+                this.deleteGuest(event);
+            } else {
+                this.deleteReservation(event);
             }
         }
     }
 
     private void editGuestInfo(ActionEvent event){
         Guest guest = this.getSelectedGuest();
-        if (guest != null) {
-            Alert errorAlert = Alerts.wrongRegisterDataAlert(event);
-
-            if (GUIFeatures.isGuestDataValid(guest, errorAlert)) {
-                if (this.guestDAO.edit(guest) > 0) {
-                    Alerts.successUpdateAlert(event);
-                } else {
-                    Alerts.internalErrorAlert(event);
-                }
-            } else {
-                errorAlert.show();
-            }
-        } else {
+        if (guest == null) {
             Alerts.showNoSelectedFieldAlert(event);
+            return;
         }
+
+        Alert errorAlert = Alerts.wrongRegisterDataAlert(event);
+        if (!GUIFeatures.isGuestDataValid(guest, errorAlert)) {
+            errorAlert.show();
+            return;
+        }
+
+        if (this.guestDAO.edit(guest) > 0) {
+            Alerts.successUpdateAlert(event);
+        } else {
+            Alerts.internalErrorAlert(event);
+        }
+
     }
 
     private void editReservation(ActionEvent event){
         if (!this.validDates) {
             Alerts.wrongDatesAlert(event);
+            return;
+        }
+        Reservation reservation = this.getSelectedReservation();
+        if (reservation == null) {
+            Alerts.showNoSelectedFieldAlert(event);
+            return;
+        }
+        if (this.reservationDAO.edit(reservation) > 0) {
+            Alerts.successUpdateAlert(event);
         } else {
-            Reservation reservation = this.getSelectedReservation();
-            if (reservation != null) {
-                if (reservationDAO.edit(reservation) > 0) {
-                    Alerts.successUpdateAlert(event);
-                } else {
-                    Alerts.internalErrorAlert(event);
-                }
-            } else {
-                Alerts.showNoSelectedFieldAlert(event);
-            }
+            Alerts.internalErrorAlert(event);
         }
     }
 
-    private void deleteGuest(ActionEvent event) throws SQLException{
-        Guest guest = this.getSelectedGuest();
-        if (guest != null) {
+    private void deleteGuest(ActionEvent event){
+        try {
+            Guest guest = this.getSelectedGuest();
+            if (guest == null) {
+                Alerts.showNoSelectedFieldAlert(event);
+                return;
+            }
+
             if (guestDAO.delete(guest) > 1) {
                 Alerts.successDeleteAlert(event);
                 this.showGuests();
                 this.showReservations();
+            } else {
+                Alerts.internalErrorAlert(event);
             }
-        } else {
-            Alerts.showNoSelectedFieldAlert(event);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.internalErrorAlert(event);
         }
     }
 
-    private void deleteReservation(ActionEvent event) throws SQLException{
-        Reservation reservation = this.getSelectedReservation();
-        if (reservation != null) {
+    private void deleteReservation(ActionEvent event){
+        try {
+            Reservation reservation = this.getSelectedReservation();
+            if (reservation == null) {
+                Alerts.showNoSelectedFieldAlert(event);
+                return;
+            }
             if (this.reservationDAO.fullDelete(reservation.getId()) > 1) {
                 Alerts.successDeleteAlert(event);
                 this.showGuests();
                 this.showReservations();
             } else {
-                Alerts.showNoSelectedFieldAlert(event);
+                Alerts.internalErrorAlert(event);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.internalErrorAlert(event);
         }
+
     }
 
 
@@ -205,17 +219,19 @@ public class SearchController implements Initializable {
     }
 
     public void search(ActionEvent event){
-        if (!this.searchBar.getText().isBlank()) {
-            String tabName = this.tabPane.getSelectionModel().getSelectedItem().getText();
-            if (tabName.equals("Huéspedes")) {
-                this.searchGuest(searchBar.getText());
-            } else {
-                if (Validate.isNumericLong(this.searchBar.getText())) {
-                    this.searchReservation(Long.parseLong(this.searchBar.getText()));
-                } else {
-                    Alerts.wrongIdAlert(event);
-                }
-            }
+        if (this.searchBar.getText().isBlank()) {
+            return;
+        }
+        String tabName = tabPane.getSelectionModel().getSelectedItem().getText();
+        if (tabName.equals("Huéspedes")) {
+            this.searchGuest(this.searchBar.getText());
+            return;
+        }
+
+        if (Validate.isNumericLong(this.searchBar.getText())) {
+            this.searchReservation(Long.parseLong(this.searchBar.getText()));
+        } else {
+            Alerts.wrongIdAlert(event);
         }
     }
 

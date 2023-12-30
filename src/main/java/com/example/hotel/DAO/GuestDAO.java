@@ -1,11 +1,9 @@
 package com.example.hotel.DAO;
 
 import com.example.hotel.models.Guest;
-
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class GuestDAO {
     private final Connection connection;
